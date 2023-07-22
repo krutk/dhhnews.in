@@ -1,8 +1,21 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Saira_Stencil_One, Instrument_Sans} from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'],
+  variable: '--font-inter'
+})
+const sairaStencilOne = Saira_Stencil_One({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-saira-stencil-one'
+})
+
+const instrument_Sans = Instrument_Sans({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-instrument-sans'
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.variable} ${sairaStencilOne.variable} ${instrument_Sans.variable}` }>{children}</body>
     </html>
   )
 }
