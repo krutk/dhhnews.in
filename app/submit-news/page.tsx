@@ -2,7 +2,7 @@
 
 import { PhotoIcon, UserCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import MultipleSelect from "@/components/multiSelect";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getSession, useSession } from 'next-auth/react'
 import { useRouter } from "next/navigation";
 import uploadImageToCloudinary from "@/utils/uploadImageToCD";
@@ -27,7 +27,7 @@ const SubmitNews = () => {
     });
     const [isLoading, setIsLoading] = useState(false);
     const [isPageLoading, setIsPageLoading] = useState(true);
-    const [file, setFile] = useState({})
+    const [file, setFile] = useState<File | undefined | null>(undefined);
 
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const SubmitNews = () => {
             if (!session) {
                 router.push('/signin');
             } else {
-                setFormData((prevData) => ({ ...prevData, userId: session.user?.id }));
+                setFormData((prevData):any => ({ ...prevData, userId: session.user?.id }));
                 setIsPageLoading(false);
             }
         };
@@ -87,10 +87,10 @@ const SubmitNews = () => {
     };
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:any) => {
         e.preventDefault();
 
-        setFormData((prevData) => ({ ...prevData, userId: session?.user?.id }));
+        setFormData((prevData):any => ({ ...prevData, userId: session?.user?.id }));
 
 
 

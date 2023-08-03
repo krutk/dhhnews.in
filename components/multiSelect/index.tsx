@@ -8,7 +8,7 @@ const options = tags.map((tag) => ({
     value: tag,
 }));
 
-const MultipleSelect = ({ onChange }) => {
+const MultipleSelect = ({ onChange }:any) => {
     return (
         <Select
             isMulti
