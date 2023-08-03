@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/image";
 import Navbar from "../components/navbar";
 import Trending from "../components/trending";
 import News from "../components/news";
@@ -7,13 +7,16 @@ import Welcome from "../components/welcome";
 import CallToAction from "../components/callToAction";
 export default function Home() {
   return (
-    <div className='bg-white'>
-      <Navbar/>
-      <Trending/>
-      <News/>
-      {/* <Poster/>
-      <Welcome/>
-      <CallToAction/> */}
+    // <div className='bg-white'>
+    <div>
+      {/* <Navbar /> */}
+
+      <Trending />
+      <News />
     </div>
-  )
+    // {/* <Poster/>
+    // <Welcome/>
+    // <CallToAction/> */}
+    // </div>
+  );
 }
