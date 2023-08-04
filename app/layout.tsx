@@ -13,7 +13,7 @@ const sairaStencilOne = Saira_Stencil_One({
   variable: "--font-saira-stencil-one",
 });
 
-const instrument_Sans = Instrument_Sans({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-instrument-sans",
@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${sairaStencilOne.variable} ${instrument_Sans.variable}`}
+        className={`${inter.variable} ${sairaStencilOne.variable} ${instrumentSans.variable}`}
       >
         <Provider>
           <div className='bg-white sm:px-20 px-4'>
