@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function uploadImageToCloudinary(imageUrl) {
+export default async function uploadImageToCloudinary(imageUrl:any) {
   const data = new FormData();
   data.append("file", imageUrl);
   data.append("upload_preset", "dhh-news");
