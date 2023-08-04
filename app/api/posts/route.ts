@@ -47,7 +47,8 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Error while fetching posts:", error);
     throw error;
-  } finally {
-    await prisma.$disconnect(); // Disconnect the Prisma client after fetching data
   }
+  // finally {
+  //   await prisma.$disconnect(); // Disconnect the Prisma client after fetching data
+  // }
 }

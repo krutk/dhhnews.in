@@ -114,110 +114,111 @@ import { sign, verify } from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 interface CredentialsConfig {
-    credentials: {
-        password: { label: string; type: string };
-        email: { label: string; placeholder: string; type: string };
-        username: { label: string; placeholder: string; type: string };
-    };
-    name: string;
-    authorize(credentials: {
-        email: string;
-        password: string;
-        username: string;
-    }): Promise<any>; // Adjust the return type according to your authorization logic
+  credentials: {
+    password: { label: string; type: string };
+    email: { label: string; placeholder: string; type: string };
+    username: { label: string; placeholder: string; type: string };
+  };
+  name: string;
+  authorize(credentials: {
+    email: string;
+    password: string;
+    username: string;
+  }): Promise<any>; // Adjust the return type according to your authorization logic
 }
 
 const credentialsConfig: any = {
-    credentials: {
-        email: {
-            label: "Email",
-            type: "text",
-            placeholder: "utkarsh@gmail.com",
-        },
-        password: { label: "Password", type: "password" },
-        username: {
-            label: "Username",
-            type: "text",
-            placeholder: "Random Kumar",
-        },
+  credentials: {
+    email: {
+      label: "Email",
+      type: "text",
+      placeholder: "utkarsh@gmail.com",
     },
-    name: "credentials",
-    authorize: async (credentials:any) => {
-        if (!credentials.email || !credentials.password) {
-            throw new Error("Please enter email and password!");
-        }
-
-        const user = await prisma.user.findUnique({
-            where: {
-                email: credentials.email,
-            },
-        });
-
-        if (!user) {
-            throw new Error("User not found!");
-        }
-        if (user.hashedPassword === null) {
-            throw new Error("User has no password set!");
-        }
-        const passwordMatch = await bcrypt.compare(
-            credentials.password,
-            user.hashedPassword
-        );
-
-        if (!passwordMatch) {
-            throw new Error("Incorrect email and password combination!");
-        }
-
-        return user;
+    password: { label: "Password", type: "password" },
+    username: {
+      label: "Username",
+      type: "text",
+      placeholder: "Random Kumar",
     },
+  },
+  name: "credentials",
+  authorize: async (credentials: any) => {
+    if (!credentials.email || !credentials.password) {
+      throw new Error("Please enter email and password!");
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: credentials.email,
+      },
+    });
+
+    if (!user) {
+      throw new Error("User not found!");
+    }
+    if (user.hashedPassword === null) {
+      throw new Error("User has no password set!");
+    }
+    const passwordMatch = await bcrypt.compare(
+      credentials.password,
+      user.hashedPassword
+    );
+
+    if (!passwordMatch) {
+      throw new Error("Incorrect email and password combination!");
+    }
+
+    return user;
+  },
 };
 
 export const authOptions: any = {
-    adapter: PrismaAdapter(prisma),
-    providers: [CredentialsProvider(credentialsConfig)],
-    session: {
-        strategy: "jwt",
-    },
+  adapter: PrismaAdapter(prisma),
+  providers: [CredentialsProvider(credentialsConfig)],
+  session: {
+    strategy: "jwt",
+  },
 
-    callbacks: {
-        async jwt({ token, user }: any) {
-            if (user) {
-                token.user = user;
-            }
-            return token;
-        },
-        async session({ session, token }: any) {
-            session.user = token.user;
-            return session;
-        },
+  callbacks: {
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
     },
-    cookies: {
-        sessionToken: {
-            name: `next-auth.session-token`,
-            options: {
-                httpOnly: false,
-                sameSite: "lax",
-                path: "/",
-                secure: false,
-            },
-        },
+    async session({ session, token }: any) {
+      session.user = token.user;
+      return session;
     },
-    jwt: {
-        secret: process.env.JWT_SECRET,
-        encode: async ({ secret, token, maxAge }: any) => {
-            try {
-                return sign(token, secret);
-            } catch (error) {
-                console.log("error JWT---", error);
-                return null;
-            }
-        },
-        decode: async ({ secret, token, maxAge }: any) => {
-            return verify(token, secret);
-        },
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: false,
+        sameSite: "lax",
+        path: "/",
+        secure: false,
+      },
     },
+  },
+  secret: process.env.JWT_SECRET,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    encode: async ({ secret, token, maxAge }: any) => {
+      try {
+        return sign(token, secret);
+      } catch (error) {
+        console.log("error JWT---", error);
+        return null;
+      }
+    },
+    decode: async ({ secret, token, maxAge }: any) => {
+      return verify(token, secret);
+    },
+  },
 
-    debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === "development",
 };
 
 // Rest of the code remains unchanged...
