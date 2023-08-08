@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Saira_Stencil_One, Instrument_Sans } from "next/font/google";
 import Provider from "./context/AuthContext";
 import Navbar from "../components/navbar"
+import PostsProvider from "@/components/contexts/PostsContext";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -37,9 +38,11 @@ export default function RootLayout({
       >
         <Provider>
           <div className='bg-white sm:px-20 px-4'>
-            <Navbar />
-            {children}
+            <PostsProvider>
+              <Navbar />
+              {children}
 
+            </PostsProvider>
           </div>
         </Provider>
       </body>
