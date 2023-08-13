@@ -30,8 +30,14 @@ export async function GET(request: NextRequest) {
   try {
     // Fetch all posts along with user details using Prisma client
     const allPosts = await prisma.newsItem.findMany({
+      // where: {
+      //   isApproved: true,
+      // },
       include: {
         user: true, // This will fetch the associated User data for each post
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
 

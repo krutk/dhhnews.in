@@ -48,6 +48,8 @@ const Index = () => {
     signOut(); // Call the signOut function from next-auth to log the user out
   };
 
+  console.log("session-->image", session);
+
   const handleUsernameClick = () => {
     setIsDropdownOpen((prevState) => !prevState);
   };
@@ -103,7 +105,7 @@ const Index = () => {
                   {session?.user?.username}
                 </div>
                 <div className="border-t border-gray-300"></div>
-                <Link href="/user">
+                <Link href={`/${session.user.username}`}>
                   <div className="cursor-pointer px-4 py-2 hover:bg-gray-100">
                     Profile
                   </div>

@@ -1,33 +1,26 @@
-"use client";
-
 import {
   PhotoIcon,
   UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import MultipleSelect from "@/components/multiSelect";
 import React, { useEffect, useState } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import uploadImageToCloudinary from "@/utils/uploadImageToCD";
 import axios from "axios";
+import Loader from "@/components/Loader";
 
-interface FormData {
-  title: string;
-  tags: string[];
-  imageUrl: any;
-  description: string;
+interface ProfileData {
+  profilePicture: string;
+  about: string;
   userId: string;
 }
 
-const SubmitNews = () => {
+const UpdateProfile = (): any => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [formData, setFormData] = useState<FormData>({
-    title: "",
-    tags: [],
-    imageUrl: "",
-    description: "",
+  const [profileData, setProfileData] = useState<ProfileData>({
+    profilePicture: "",
+    about: "",
     userId: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +33,7 @@ const SubmitNews = () => {
       if (!session) {
         router.push("/signin");
       } else {
-        setFormData((prevData): any => ({
+        setProfileData((prevData): any => ({
           ...prevData,
           userId: session.user?.id,
         }));
@@ -51,25 +44,11 @@ const SubmitNews = () => {
     fetchSession();
   }, []);
 
-  const handleResetForm = () => {
-    setFormData({
-      title: "",
-      tags: [],
-      imageUrl: "",
-      description: "",
-      userId: "",
-    });
-  };
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // Store uploaded image URL
 
   const handleInputChange = (event: { target: { name: any; value: any } }) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleTagsChange = (selectedItems: { value: string }[]) => {
-    const selectedTags = selectedItems.map((item) => item.value);
-    setFormData((prevData) => ({ ...prevData, tags: selectedTags }));
+    setProfileData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleFileChange = async (
@@ -93,7 +72,6 @@ const SubmitNews = () => {
         setIsLoading(false);
         const imageURL = URL.createObjectURL(selectedFile);
         setUploadedImage(imageURL);
-        // setFormData((prevData) => ({ ...prevData, imageUrl: imageURL }));
       } else {
         // Selected file is not an image, show an error message or handle it as needed
         console.error("Please select an image (PNG, JPG, GIF) file.");
@@ -101,17 +79,17 @@ const SubmitNews = () => {
     }
   };
 
-  const uploadImageToCloudinary = async () => {
+  const updateProfilePicture = async () => {
     if (!file) return null;
 
     try {
-      const data = new FormData();
+      const data: any = new FormData();
       data.append("file", file);
-      data.append("upload_preset", "dhh-news");
-      data.append("cloud_name", "dexfnfjrx");
+      data.append("upload_preset", process.env.CD_PRESET_KEY);
+      data.append("cloud_name", process.env.CD_CLOUD_NAME);
 
       const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dexfnfjrx/image/upload`,
+        `https://api.cloudinary.com/v1_1/${process.env.CD_CLOUD_NAME}/image/upload`,
         data
       );
 
@@ -126,25 +104,26 @@ const SubmitNews = () => {
     e.preventDefault();
 
     try {
-      const imageUrl = await uploadImageToCloudinary();
+      const profilePicture = await updateProfilePicture();
 
-      const newsData = {
-        ...formData,
-        imageUrl: imageUrl || formData.imageUrl, // Use existing imageUrl if no new image
+      const updatedProfileData = {
+        ...profileData,
+        profilePicture: profilePicture || profileData.profilePicture, // Use existing profilePicture if no new image
       };
 
-      const newsResponse = await fetch("/api/submit-news", {
+      // Perform the update API call with updatedProfileData
+      const updateProfileResponse = await fetch("/api/update-profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newsData),
+        body: JSON.stringify(updatedProfileData),
       });
 
-      if (newsResponse.ok) {
-        alert("Post is uploaded successfully!");
-        handleResetForm();
-        // router.push("/signin")
+      console.log("updatedProfileResponse: " + updateProfileResponse);
+
+      if (updateProfileResponse.ok) {
+        alert("Profile updated successfully");
       } else {
         alert("Something went wrong!");
       }
@@ -160,69 +139,26 @@ const SubmitNews = () => {
   };
 
   if (isPageLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-16 h-16 border-t-4 border-[#FFB600] border-solid rounded-full animate-spin"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* ...Similar code as the previous example... */}
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="title"
-                className="block text-lg font-semibold leading-7 text-gray-900"
-              >
-                Title
-              </label>
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset  ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[#FF6D00] w-full">
-                  <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    autoComplete="title"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-2 outline-none text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6"
-                    placeholder="EPR Iyer started a math tuition class and only teaches Fibonacci series!"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-            </div>
-
             <div className="col-span-full">
               <label
-                htmlFor="tags"
+                htmlFor="profile-picture"
                 className="block text-lg font-semibold leading-6 text-gray-900"
               >
-                Tags
-              </label>
-              <div className="mt-2">
-                <MultipleSelect onChange={handleTagsChange} />
-              </div>
-            </div>
-
-            <div className="col-span-full">
-              <label
-                htmlFor="cover-photo"
-                className="block text-lg font-semibold leading-6 text-gray-900"
-              >
-                Cover photo
+                Profile Picture
               </label>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 {isLoading ? (
                   // Show loader if image is being uploaded
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-[#FFB600] border-solid mx-auto"></div>
-                    <p className="mt-4 text-base leading-6 text-gray-600">
-                      Uploading...
-                    </p>
-                  </div>
+                  <Loader />
                 ) : uploadedImage ? (
                   // Show the uploaded image if available
                   // <img src={uploadedImage} alt="Uploaded" className="h-32 mx-auto" />
@@ -274,19 +210,19 @@ const SubmitNews = () => {
 
             <div className="col-span-full">
               <label
-                htmlFor="description"
+                htmlFor="about"
                 className="block text-lg font-semibold leading-6 text-gray-900"
               >
-                Description
+                About
               </label>
               <div className="mt-2">
                 <textarea
-                  id="description"
-                  name="description"
+                  id="about"
+                  name="about"
                   rows={5}
                   className="block pl-2 w-full rounded-md border-0 py-1.5 outline-none text-gray-900 shadow-sm ring-1 ring-inset border-hidden ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF6D00] sm:text-base sm:leading-6"
-                  defaultValue={""}
-                  value={formData.description}
+                  placeholder="Tell us about yourself..."
+                  value={profileData.about}
                   onChange={handleInputChange}
                 />
               </div>
@@ -296,12 +232,6 @@ const SubmitNews = () => {
       </div>
 
       <div className="my-6 flex items-center justify-end gap-x-6">
-        <button
-          type="button"
-          className="text-lg font-semibold leading-6 text-gray-900"
-        >
-          Cancel
-        </button>
         <button
           type="submit"
           className="rounded-md bg-[#FF6D00] px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-[#FFB600] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6D00]"
@@ -313,4 +243,4 @@ const SubmitNews = () => {
   );
 };
 
-export default SubmitNews;
+export default UpdateProfile;

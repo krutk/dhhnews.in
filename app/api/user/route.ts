@@ -22,7 +22,11 @@ export async function GET(request: NextRequest) {
         username: username,
       },
       include: {
-        NewsItem: true,
+        NewsItem: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
     // Format the data as needed (for example, converting to JSON)

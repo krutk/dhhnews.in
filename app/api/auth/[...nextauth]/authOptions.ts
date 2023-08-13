@@ -110,6 +110,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { sign, verify } from "jsonwebtoken";
+import { sendEmailVerification } from "@/utils/sendEmailVerification";
 
 const prisma = new PrismaClient();
 
@@ -156,6 +157,9 @@ const credentialsConfig: any = {
     if (!user) {
       throw new Error("User not found!");
     }
+    if (!user.emailVerified) {
+      throw new Error("Please verify your email!");
+    }
     if (user.hashedPassword === null) {
       throw new Error("User has no password set!");
     }
@@ -188,6 +192,7 @@ export const authOptions: any = {
     },
     async session({ session, token }: any) {
       session.user = token.user;
+      // console.log("session------> token ----->", session, token);
       return session;
     },
   },
