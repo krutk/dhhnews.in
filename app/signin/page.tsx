@@ -71,11 +71,14 @@ const SignIn = () => {
                 >
                   Password
                 </label>
-                {/* <div className="text-sm">
-                    <a href="#" className="font-semibold text-[#FF6D00] hover:text-[#FFB600]">
-                      Forgot password?
-                    </a>
-                  </div> */}
+                <div className="text-sm">
+                  <a
+                    href="/forgot-password"
+                    className="font-semibold text-[#FF6D00] hover:text-[#FFB600]"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
               </div>
               <div className="mt-2">
                 <input

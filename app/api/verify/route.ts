@@ -30,7 +30,7 @@ export async function GET(req: any, res: any) {
     },
     data: {
       emailVerified: true,
-      verificationToken: "",
+      verificationToken: null,
     },
   });
 
