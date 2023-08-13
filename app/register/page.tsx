@@ -66,14 +66,14 @@ const Register = () => {
   const registerUser = async (e: any) => {
     e.preventDefault();
     if (e.target.checkValidity() && validateForm()) {
-      // try {
-      //   await axios.post("/api/register", data);
-      //   alert("User has been registered!");
-      //   router.push("/signin");
-      // } catch (error) {
-      //   setData(initialState);
-      //   alert("Something went wrong!");
-      // }
+      try {
+        await axios.post("/api/register", data);
+        alert("User has been registered!");
+        router.push("/signin");
+      } catch (error) {
+        setData(initialState);
+        alert("Something went wrong!");
+      }
     }
   };
 
