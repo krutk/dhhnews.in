@@ -32,7 +32,7 @@ const Page = ({ params }: { params: { user: string } }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [loading]);
   const navigateToUpdatePage = () => {
     setEdit(!edit);
   };
@@ -41,14 +41,22 @@ const Page = ({ params }: { params: { user: string } }) => {
       id: 1,
       label: "Posts",
       content: user?.NewsItem.map((news: any) => {
-        return (
-          <div className="flex w-full items-center mb-12">
-            <div className="w-full md:w-2/3">
-              <PostTitleDesc post={news} />
+        if (session?.user.id === user?.id || news.isApproved) {
+          return (
+            <div className="flex w-full items-center mb-12">
+              <div className="w-full md:w-2/3">
+                <PostTitleDesc
+                  profile={true}
+                  setLoading={setLoading}
+                  post={news}
+                  session={session}
+                />
+              </div>
+              <PostImage imageUrl={news?.imageUrl} />
             </div>
-            <PostImage imageUrl={news?.imageUrl} />
-          </div>
-        );
+          );
+        }
+        return null; // Don't render the news item if not approved and user IDs don't match
       }),
     },
     {
@@ -79,13 +87,15 @@ const Page = ({ params }: { params: { user: string } }) => {
           className="inline-block h-[88px] w-[88px] bg-slate-600 rounded-full ring-2 ring-white cursor-pointer"
           onClick={() => openImageModal(user?.image)}
         /> */}
-        <Avatar className="inline-block h-[88px] w-[88px] bg-slate-600 rounded-full ring-2 ring-white cursor-pointer">
+        <Avatar className="inline-block h-[70px] w-[70px] bg-slate-600 rounded-full ring-2 ring-white cursor-pointer">
           <AvatarImage
             src={user?.image}
             className="inline-block h-[88px] w-[88px] bg-slate-600 rounded-full ring-2 ring-white cursor-pointer"
             onClick={() => openImageModal(user?.image)}
           />
-          <AvatarFallback>{user.username[0]}</AvatarFallback>
+          <AvatarFallback className="text-4xl">
+            {user?.username[0]?.toUpperCase()}
+          </AvatarFallback>
         </Avatar>
 
         {/* <div className="flex justify-center flex-col ml-3"> */}
@@ -98,7 +108,14 @@ const Page = ({ params }: { params: { user: string } }) => {
             />
           )}
         </div>
-        <div className="text-[14px]">{user?.NewsItem.length} Posts</div>
+        <div className="text-[14px]">
+          {session?.user.id === user?.id
+            ? `${user?.NewsItem.length} Posts`
+            : `${
+                user?.NewsItem.filter((newsItem: any) => newsItem.isApproved)
+                  .length
+              } Posts`}
+        </div>
       </div>
       {edit ? <UserUpdateForm /> : <Tabs tabs={tabs} />}
       {isModalOpen && (

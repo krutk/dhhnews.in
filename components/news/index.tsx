@@ -18,7 +18,11 @@ const Index = () => {
   }, []);
 
   const handleSortOptionClick = (option: React.SetStateAction<string>) => {
-    setSelectedSortOption(option);
+    if (selectedSortOption === option) {
+      setSelectedSortOption(""); // Deselect if already selected
+    } else {
+      setSelectedSortOption(option); // Select if unselected
+    }
     // Perform sorting or other operations based on the selected option
     console.log(option);
   };
@@ -39,7 +43,7 @@ const Index = () => {
                   router.push("/news");
                 }
               }}
-              className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer bg-gray-100
+              className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer bg-[#FFE3CE]
                                 }`}
             >
               Refresh
@@ -47,7 +51,7 @@ const Index = () => {
             <div
               onClick={() => handleSortOptionClick("Lafda")}
               className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer ${
-                selectedSortOption === "Lafda" ? "bg-gray-400" : "bg-gray-100"
+                selectedSortOption === "Lafda" ? "bg-[#FF994E]" : "bg-[#FFE3CE]"
               }`}
             >
               Lafda
@@ -55,7 +59,7 @@ const Index = () => {
             <div
               onClick={() => handleSortOptionClick("Song")}
               className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer ${
-                selectedSortOption === "Song" ? "bg-gray-400" : "bg-gray-100"
+                selectedSortOption === "Song" ? "bg-[#FF994E]" : "bg-[#FFE3CE]"
               }`}
             >
               Song
@@ -63,7 +67,7 @@ const Index = () => {
             <div
               onClick={() => handleSortOptionClick("Album")}
               className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer ${
-                selectedSortOption === "Album" ? "bg-gray-400" : "bg-gray-100"
+                selectedSortOption === "Album" ? "bg-[#FF994E]" : "bg-[#FFE3CE]"
               }`}
             >
               Album
@@ -71,7 +75,9 @@ const Index = () => {
             <div
               onClick={() => handleSortOptionClick("Update")}
               className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer ${
-                selectedSortOption === "Update" ? "bg-gray-400" : "bg-gray-100"
+                selectedSortOption === "Update"
+                  ? "bg-[#FF994E]"
+                  : "bg-[#FFE3CE]"
               }`}
             >
               Update

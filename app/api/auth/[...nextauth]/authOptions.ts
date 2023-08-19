@@ -133,7 +133,7 @@ const credentialsConfig: any = {
     email: {
       label: "Email",
       type: "text",
-      placeholder: "utkarsh@gmail.com",
+      placeholder: "dhhnews.in@mail.com",
     },
     password: { label: "Password", type: "password" },
     username: {
@@ -153,7 +153,7 @@ const credentialsConfig: any = {
         email: credentials.email,
       },
     });
-
+    console.log("user------>", user);
     if (!user) {
       throw new Error("User not found!");
     }
@@ -192,7 +192,7 @@ export const authOptions: any = {
     },
     async session({ session, token }: any) {
       session.user = token.user;
-      // console.log("session------> token ----->", session, token);
+      console.log("session------> token ----->", session, token);
       return session;
     },
   },
@@ -225,5 +225,3 @@ export const authOptions: any = {
 
   debug: process.env.NODE_ENV === "development",
 };
-
-// Rest of the code remains unchanged...

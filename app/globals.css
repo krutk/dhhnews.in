@@ -6,6 +6,12 @@
   border-color: #ff6d00 !important;
 }
 
+.react-select-container {
+  .css-t3ipsp-control {
+    box-shadow: none !important;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

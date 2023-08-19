@@ -3,6 +3,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
+import AlertDialog from "@/components/alertDialog";
+import Loader from "@/components/Loader";
 
 const SignIn = () => {
   const router = useRouter();
@@ -11,20 +13,30 @@ const SignIn = () => {
     password: "",
   };
   const [data, setData] = useState(initialState);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const signInUser = async (e: { preventDefault: () => void }) => {
+    setIsLoading(true);
     e.preventDefault();
     const signInData = await signIn("credentials", {
       ...data,
       redirect: false,
     });
     console.log("signInData--->", signInData);
+    setIsLoading(false);
     if (signInData?.error === null) {
       router.push("/");
     } else {
-      alert(signInData?.error);
+      setModalMessage(signInData?.error ?? "Something went wrong!");
+      setModalVisible(true);
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -117,6 +129,12 @@ const SignIn = () => {
           </p>
         </div>
       </div>
+      {modalVisible && (
+        <AlertDialog
+          modalMessage={modalMessage}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </>
   );
 };

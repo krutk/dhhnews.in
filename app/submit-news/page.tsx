@@ -11,7 +11,8 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import uploadImageToCloudinary from "@/utils/uploadImageToCD";
 import axios from "axios";
-
+import AlertDialog from "@/components/alertDialog";
+import Loader from "@/components/Loader";
 interface FormData {
   title: string;
   tags: string[];
@@ -30,9 +31,11 @@ const SubmitNews = () => {
     description: "",
     userId: "",
   });
+  const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [file, setFile] = useState<File | undefined | null>(undefined);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -61,6 +64,7 @@ const SubmitNews = () => {
     });
   };
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // Store uploaded image URL
+  const [tagsError, setTagsError] = useState(false);
 
   const handleInputChange = (event: { target: { name: any; value: any } }) => {
     const { name, value } = event.target;
@@ -70,6 +74,7 @@ const SubmitNews = () => {
   const handleTagsChange = (selectedItems: { value: string }[]) => {
     const selectedTags = selectedItems.map((item) => item.value);
     setFormData((prevData) => ({ ...prevData, tags: selectedTags }));
+    setTagsError(selectedTags.length === 0);
   };
 
   const handleFileChange = async (
@@ -124,7 +129,10 @@ const SubmitNews = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
+    if (formData.tags.length === 0) {
+      setTagsError(true);
+      return; // Stop form submission
+    }
     try {
       const imageUrl = await uploadImageToCloudinary();
 
@@ -142,15 +150,20 @@ const SubmitNews = () => {
       });
 
       if (newsResponse.ok) {
-        alert("Post is uploaded successfully!");
+        setModalMessage(
+          "News Submitted successfully. Please wait for approval."
+        );
+        setModalVisible(true);
         handleResetForm();
         // router.push("/signin")
       } else {
-        alert("Something went wrong!");
+        setModalMessage("Something went wrong!");
+        setModalVisible(true);
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      alert("Something went wrong!");
+      setModalMessage("Something went wrong!");
+      setModalVisible(true);
     }
   };
 
@@ -160,11 +173,7 @@ const SubmitNews = () => {
   };
 
   if (isPageLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-16 h-16 border-t-4 border-[#FFB600] border-solid rounded-full animate-spin"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
@@ -179,9 +188,10 @@ const SubmitNews = () => {
               >
                 Title
               </label>
-              <div className="mt-2">
+              <div className={`mt-2 ${tagsError ? "border-[#FF6D00]" : ""}`}>
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset  ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[#FF6D00] w-full">
                   <input
+                    required
                     type="text"
                     name="title"
                     id="title"
@@ -203,7 +213,16 @@ const SubmitNews = () => {
                 Tags
               </label>
               <div className="mt-2">
-                <MultipleSelect onChange={handleTagsChange} />
+                <MultipleSelect
+                  required
+                  className="outline-none"
+                  onChange={handleTagsChange}
+                />
+                {tagsError && (
+                  <p className="text-[#FF6D00] mt-1">
+                    Please select at least one tag.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -281,6 +300,7 @@ const SubmitNews = () => {
               </label>
               <div className="mt-2">
                 <textarea
+                  required
                   id="description"
                   name="description"
                   rows={5}
@@ -309,6 +329,12 @@ const SubmitNews = () => {
           Save
         </button>
       </div>
+      {modalVisible && (
+        <AlertDialog
+          modalMessage={modalMessage}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </form>
   );
 };

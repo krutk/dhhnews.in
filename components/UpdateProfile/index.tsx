@@ -1,8 +1,4 @@
-import {
-  PhotoIcon,
-  UserCircleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
+import { PhotoIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -17,7 +13,6 @@ interface ProfileData {
 
 const UpdateProfile = (): any => {
   const router = useRouter();
-  const { data: session, status } = useSession();
   const [profileData, setProfileData] = useState<ProfileData>({
     profilePicture: "",
     about: "",
@@ -26,6 +21,9 @@ const UpdateProfile = (): any => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [file, setFile] = useState<File | undefined | null>(undefined);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const { update } = useSession();
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -59,21 +57,14 @@ const UpdateProfile = (): any => {
     setFile(selectedFile); // Update the file state with the selected file
 
     if (selectedFile) {
-      // Check if the selected file is an image (PNG, JPG, GIF)
       const acceptedImageTypes = ["image/png", "image/jpeg", "image/gif"];
       if (acceptedImageTypes.includes(selectedFile.type)) {
-        // Show loader while uploading
         setIsLoading(true);
 
-        // Simulate image upload delay (replace this with your actual image upload logic)
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-        // Set the uploaded image URL and stop loader
         setIsLoading(false);
         const imageURL = URL.createObjectURL(selectedFile);
         setUploadedImage(imageURL);
       } else {
-        // Selected file is not an image, show an error message or handle it as needed
         console.error("Please select an image (PNG, JPG, GIF) file.");
       }
     }
@@ -120,16 +111,17 @@ const UpdateProfile = (): any => {
         body: JSON.stringify(updatedProfileData),
       });
 
-      console.log("updatedProfileResponse: " + updateProfileResponse);
-
       if (updateProfileResponse.ok) {
-        alert("Profile updated successfully");
+        setModalMessage("Profile updated successfully");
+        setModalVisible(true);
       } else {
-        alert("Something went wrong!");
+        setModalMessage("Something went wrong!");
+        setModalVisible(true);
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      alert("Something went wrong!");
+      setModalMessage("Something went wrong!");
+      setModalVisible(true);
     }
   };
 
@@ -144,7 +136,6 @@ const UpdateProfile = (): any => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* ...Similar code as the previous example... */}
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -156,8 +147,7 @@ const UpdateProfile = (): any => {
                 Profile Picture
               </label>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                {isLoading ? (
-                  // Show loader if image is being uploaded
+                {isLoading ? ( // Show loader if image is being uploaded
                   <Loader />
                 ) : uploadedImage ? (
                   // Show the uploaded image if available
@@ -207,7 +197,6 @@ const UpdateProfile = (): any => {
                 )}
               </div>
             </div>
-
             <div className="col-span-full">
               <label
                 htmlFor="about"
@@ -230,7 +219,6 @@ const UpdateProfile = (): any => {
           </div>
         </div>
       </div>
-
       <div className="my-6 flex items-center justify-end gap-x-6">
         <button
           type="submit"
@@ -239,6 +227,23 @@ const UpdateProfile = (): any => {
           Save
         </button>
       </div>
+
+      {modalVisible && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <p className="text-lg font-semibold">{modalMessage}</p>
+            <button
+              className="mt-4 px-4 py-2 bg-[#FF6D00] text-white rounded-md font-semibold hover:bg-[#FFB600]"
+              onClick={() => {
+                setModalVisible(false);
+                window.location.reload();
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </form>
   );
 };

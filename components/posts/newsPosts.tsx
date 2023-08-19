@@ -17,6 +17,7 @@ type Post = {
   createdAt: string;
   updatedAt: string;
   userId: string;
+  isApproved: boolean;
   user: {
     id: string;
     username: string;
@@ -44,7 +45,7 @@ const Post = ({ post }: { post: Post }) => {
           </Link>
         </div> */}
         <PostUser post={post} />
-        <PostTitleDesc post={post} />
+        <PostTitleDesc setLoading={() => {}} post={post} />
       </div>
       <PostImage imageUrl={post?.imageUrl} />
     </div>
@@ -65,9 +66,12 @@ const AllPosts = ({ selectedSortOption }: any) => {
 
   const filteredPosts = posts.filter((post) => {
     // Assuming "tags" is an array of strings in each post
-    return selectedSortOption ? post.tags.includes(selectedSortOption) : posts;
+    return selectedSortOption
+      ? post.tags.includes(selectedSortOption) && post.isApproved
+      : post.isApproved;
   });
 
+  console.log("filtered posts", filteredPosts);
   return (
     <div>
       {filteredPosts.length ? (

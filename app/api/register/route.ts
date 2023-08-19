@@ -27,7 +27,9 @@ export async function POST(request: any) {
     });
 
     if (exist) {
-      throw new Error("Email or Username already exists!");
+      return new NextResponse("Email or Username already exists!", {
+        status: 500,
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,11 +43,36 @@ export async function POST(request: any) {
       },
     });
 
+    const verifyEmailLink =
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:3000/api/verify?token=${verificationToken}`
+        : `https://dhhnews-in.vercel.app/api/verify?token=${verificationToken}`;
+
+    const HTMLCode = `<body>
+  <div style='padding: 10px; text-align: Center; align-items: center;'>
+    <div>
+       <a href="" title="logo" target="_blank">
+ <img width="60" style="border-radius:50%;" src="https://res.cloudinary.com/dexfnfjrx/image/upload/v1690988289/yelah70pstvuykgsd7ou.png" title="logo" alt="logo">
+                        </a>
+    </div>
+  <div>
+    <p>Thank you for signing up! To complete your registration, please verify your email address by clicking the button below.</p>
+    </div>
+    <a  href="${verifyEmailLink}"
+     style="background:#ff6d00;text-decoration:none !important; font-weight:600; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;cursor:pointer;">
+     Verify Email
+    </a>
+  </div>
+</body>
+`;
+
     const mailOptions = {
       from: process.env.GMAIL_ID,
       to: email,
       subject: "Verify Your Email",
-      text: `Click the following link to verify your email: http://localhost:3000/api/verify?token=${verificationToken}`,
+      text: "Verify Your Email",
+      html: HTMLCode,
+      // text: `Click the following link to verify your email: http://localhost:3000/api/verify?token=${verificationToken}`,
     };
 
     // Sending email using async/await

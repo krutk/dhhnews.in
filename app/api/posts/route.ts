@@ -40,6 +40,7 @@ export async function GET(request: NextRequest) {
         updatedAt: "desc",
       },
     });
+    console.log("ALL POSTS", allPosts);
 
     // Format the data as needed (for example, converting to JSON)
     const responseData = JSON.stringify(allPosts);

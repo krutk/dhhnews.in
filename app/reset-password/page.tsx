@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import AlertDialog from "@/components/alertDialog";
 const ResetPassword = () => {
   const initialState = {
     newPassword: "",
@@ -10,6 +11,8 @@ const ResetPassword = () => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState<any>({});
   const searchParams = useSearchParams();
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const resetPassword = async (e: any) => {
     e.preventDefault();
@@ -20,9 +23,11 @@ const ResetPassword = () => {
         console.log("new---password-->", password, data.newPassword);
         await axios.post("/api/reset-password", { token, password });
         // Perform your reset password logic here
-        alert("Password reset successfully!");
+        setModalMessage("Password reset successfully!");
+        setModalVisible(true);
       } catch (error) {
-        alert("Something went wrong. Please try again.");
+        setModalMessage("Password reset successfully!");
+        setModalVisible(true);
       }
     }
   };
@@ -85,7 +90,7 @@ const ResetPassword = () => {
                   className="block w-full rounded-md border-0 py-1.5 pl-2 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF6D00] sm:text-sm sm:leading-6"
                 />
                 {errors.newPassword && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-[#FF6D00] text-xs mt-1">
                     {errors.newPassword}
                   </p>
                 )}
@@ -113,7 +118,7 @@ const ResetPassword = () => {
                   className="block w-full rounded-md border-0 py-1.5 pl-2 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF6D00] sm:text-sm sm:leading-6"
                 />
                 {errors.confirmPassword && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-[#FF6D00] text-xs mt-1">
                     {errors.confirmPassword}
                   </p>
                 )}
@@ -131,6 +136,12 @@ const ResetPassword = () => {
           </form>
         </div>
       </div>
+      {modalVisible && (
+        <AlertDialog
+          modalMessage={modalMessage}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </>
   );
 };
