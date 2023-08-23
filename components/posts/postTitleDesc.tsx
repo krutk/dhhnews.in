@@ -10,6 +10,7 @@ interface PostTitleDescProps {
   session?: any;
   setLoading: Function;
   profile?: boolean;
+  isAdmin?: boolean;
 }
 
 const PostTitleDesc: React.FC<PostTitleDescProps> = ({
@@ -18,6 +19,7 @@ const PostTitleDesc: React.FC<PostTitleDescProps> = ({
   session,
   setLoading,
   profile,
+  isAdmin,
 }) => {
   console.log("post: " + JSON.stringify(post));
   const handleDeletePost = async () => {
@@ -32,7 +34,19 @@ const PostTitleDesc: React.FC<PostTitleDescProps> = ({
     });
     setLoading(false);
   };
-  console.log("post, sesson", post, session);
+  const handleApproval = async () => {
+    setLoading(true);
+    const Data = { id: post.id, isApproved: post.isApproved };
+    await fetch("/api/news/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Data),
+    });
+    setLoading(false);
+  };
+  console.log("post approve-->", post);
 
   return (
     <div>
@@ -57,7 +71,10 @@ const PostTitleDesc: React.FC<PostTitleDescProps> = ({
           // <span key={index} className="ml-2">
           //   {tag}
           // </span>
-          <Badge className="ml-2 text-gray-700 bg-[#FFE3CE] hover:bg-[#FF994E]">
+          <Badge
+            key={index}
+            className="ml-2 text-gray-700 bg-[#FFE3CE] hover:bg-[#FF994E]"
+          >
             {tag}
           </Badge>
         ))}
@@ -74,13 +91,36 @@ const PostTitleDesc: React.FC<PostTitleDescProps> = ({
           </>
         )}
 
-        {session?.user.id === post?.userId && (
+        {session?.user.id === post?.userId ||
+          (isAdmin && (
+            <>
+              <span className="text-center ml-2 w-1 h-1 bg-gray-600 rounded-full inline-block"></span>
+              <TrashIcon
+                className="fill-[#FF6D00] h-auto w-4 ml-2 cursor-pointer"
+                onClick={handleDeletePost} // Apply the function on icon click
+              />
+            </>
+          ))}
+        {isAdmin && (
           <>
             <span className="text-center ml-2 w-1 h-1 bg-gray-600 rounded-full inline-block"></span>
-            <TrashIcon
-              className="fill-[#FF6D00] h-auto w-4 ml-2 cursor-pointer"
-              onClick={handleDeletePost} // Apply the function on icon click
-            />
+            {/* <div className="cursor-pointer  "> */}
+            {post?.isApproved ? (
+              <Badge
+                onClick={handleApproval}
+                className="cursor-pointer ml-2 bg-[#CEEAFF] text-[#0092FF] font-semibold hover:bg-[#FFE3CE]"
+              >
+                UnApprove
+              </Badge>
+            ) : (
+              <Badge
+                onClick={handleApproval}
+                className="cursor-pointer ml-2 bg-[#FFE3CE] font-semibold text-[#FF6D00] hover:bg-[#CEEAFF]"
+              >
+                Approve
+              </Badge>
+            )}
+            {/* </div> */}
           </>
         )}
       </div>

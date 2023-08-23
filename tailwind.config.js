@@ -75,6 +75,7 @@ module.exports = {
         inter: "var(--font-inter)",
         "changa-one": "var(--font-changa-one)",
         "instrument-sans": "var(--font-instrument-sans)",
+        unbounded: "var(--font-unbounded)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

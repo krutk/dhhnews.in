@@ -43,7 +43,7 @@ const Page = ({ params }: { params: { user: string } }) => {
       content: user?.NewsItem.map((news: any) => {
         if (session?.user.id === user?.id || news.isApproved) {
           return (
-            <div className="flex w-full items-center mb-12">
+            <div key={news.id} className="flex w-full items-center mb-12">
               <div className="w-full md:w-2/3">
                 <PostTitleDesc
                   profile={true}
@@ -87,10 +87,10 @@ const Page = ({ params }: { params: { user: string } }) => {
           className="inline-block h-[88px] w-[88px] bg-slate-600 rounded-full ring-2 ring-white cursor-pointer"
           onClick={() => openImageModal(user?.image)}
         /> */}
-        <Avatar className="inline-block h-[70px] w-[70px] bg-slate-600 rounded-full ring-2 ring-white cursor-pointer">
+        <Avatar className="inline-block h-[70px] w-[70px] rounded-full ring-2 ring-white cursor-pointer">
           <AvatarImage
             src={user?.image}
-            className="inline-block h-[88px] w-[88px] bg-slate-600 rounded-full ring-2 ring-white cursor-pointer"
+            className="inline-block h-[88px] w-[88px] rounded-full ring-2 ring-white cursor-pointer"
             onClick={() => openImageModal(user?.image)}
           />
           <AvatarFallback className="text-4xl">

@@ -34,5 +34,7 @@ export async function GET(req: any, res: any) {
     },
   });
 
-  return NextResponse.json({ message: "Email verified successfully" });
+  return NextResponse.redirect("/signin");
+
+  // return NextResponse.json({ message: "Email verified successfully" });
 }
