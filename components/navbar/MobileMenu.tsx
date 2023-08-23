@@ -4,12 +4,18 @@ import MobileMenuItem from "./MobileMenuItem";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type MobileMenuProps = {
+  setMobileMenuOpen: Function;
   session: any;
   pathname: string;
   handleLogout: MouseEventHandler<HTMLDivElement>;
 };
 
-const MobileMenu = ({ session, pathname, handleLogout }: MobileMenuProps) => (
+const MobileMenu = ({
+  setMobileMenuOpen,
+  session,
+  pathname,
+  handleLogout,
+}: MobileMenuProps) => (
   <div className="sm:hidden">
     {session && (
       <Link
@@ -28,26 +34,47 @@ const MobileMenu = ({ session, pathname, handleLogout }: MobileMenuProps) => (
         <div className="pl-2">{session?.user.username}</div>
       </Link>
     )}
-    <MobileMenuItem href="/">Home</MobileMenuItem>
-    <MobileMenuItem href="/news">News</MobileMenuItem>
-    <MobileMenuItem href="/about">About</MobileMenuItem>
+    <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/">
+      Home
+    </MobileMenuItem>
+    <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/submit-news">
+      Submit News
+    </MobileMenuItem>
+    <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/news">
+      News
+    </MobileMenuItem>
+    <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/about">
+      About
+    </MobileMenuItem>
     {session ? (
-      <div
-        className="cursor-pointer -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-[#FF994E]"
-        onClick={handleLogout}
-      >
+      // <div
+      //   className="cursor-pointer -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-[#FF994E]"
+      //   onClick={handleLogout}
+      // >
+      <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/about">
         Logout
-      </div>
+      </MobileMenuItem>
     ) : (
+      // Logout
+      // </div>
       <>
         {pathname === "/signin" && (
-          <MobileMenuItem href="/register">Register</MobileMenuItem>
+          <MobileMenuItem
+            setMobileMenuOpen={setMobileMenuOpen}
+            href="/register"
+          >
+            Register
+          </MobileMenuItem>
         )}
         {pathname === "/register" && (
-          <MobileMenuItem href="/signin">Sign In</MobileMenuItem>
+          <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/signin">
+            Sign In
+          </MobileMenuItem>
         )}
         {pathname !== "/signin" && pathname !== "/register" && (
-          <MobileMenuItem href="/signin">Sign In</MobileMenuItem>
+          <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/signin">
+            Sign In
+          </MobileMenuItem>
         )}
       </>
     )}

@@ -6,21 +6,21 @@ import { FaInstagram, FaTwitter, FaEnvelope } from "react-icons/fa";
 const AboutPage = () => {
   return (
     <div>
-      <h1 className="text-4xl sm:text-6xl lg:text-8xl font-unbounded font-bold my-6 text-gray-900">
+      <h1 className="text-2xl sm:text-4xl lg:text-6xl font-unbounded font-bold my-6 text-gray-900">
         ABOUT
       </h1>
-      <p className="w-full text-justify sm:w-2/3 text-2xl  text-gray-700 mb-12">
+      <p className="w-full text-justify sm:w-2/3 text-xl  text-gray-700 mb-12">
         Welcome to the ultimate Desi Hip Hop News Website! Dive into the
         freshest news around the Desi Hip Hop scene without any sign-up or login
         hassles.
       </p>
-      <p className="w-full text-justify sm:w-2/3 text-2xl  text-gray-700 mb-12">
+      <p className="w-full text-justify sm:w-2/3 text-xl  text-gray-700 mb-12">
         Want to share your hip hop news? Just sign up, log in, and submit!
       </p>
       <div className="flex flex-col gap-5 justify-center mt-8 font-unbounded">
         <Link
           href="/register"
-          className="w-full font-medium md:w-1/2 lg:w-1/3 border-4 border-gray-600 bg-gray-600 hover:bg-gray-700 text-white py-2 px-6 rounded-full text-2xl flex items-center justify-between space-x-2"
+          className="w-full font-medium md:w-1/2 lg:w-1/3 border-4 border-gray-600 bg-gray-600 hover:bg-gray-700 text-white py-2 px-6 rounded-full text-lg flex items-center justify-between space-x-2"
         >
           <span>Sign Up</span>{" "}
           <span>
@@ -32,7 +32,7 @@ const AboutPage = () => {
         </Link>
         <Link
           href="/login"
-          className=" font-medium w-full md:w-1/2 lg:w-1/3 border-4 border-gray-600 bg-gray-100 hover:bg-gray-300  text-gray-600 py-2 px-6 rounded-full text-2xl flex items-center justify-between space-x-2"
+          className=" font-medium w-full md:w-1/2 lg:w-1/3 border-4 border-gray-600 bg-gray-100 hover:bg-gray-300 text-gray-600 py-2 px-6 rounded-full text-lg flex items-center justify-between space-x-2"
         >
           <span>Log In</span>{" "}
           <span>
@@ -42,7 +42,7 @@ const AboutPage = () => {
             />
           </span>
         </Link>
-        <p className="w-full font-unbounded text-justify sm:w-2/3 text-2xl text-gray-700 my-8">
+        <p className="w-full font-unbounded text-justify sm:w-2/3 text-xl text-gray-700 my-8">
           Unlock the power of Desi hip-hop culture. Join us today!
         </p>
       </div>
@@ -67,10 +67,10 @@ const AboutPage = () => {
         </div>
       </div> */}
       <div className="py-4 ">
-        <h2 className="text-2xl font-unbounded mb-4 text-gray-700">
+        <h2 className="text-xl font-unbounded mb-4 text-gray-700">
           Approval Process
         </h2>
-        <p className="text-gray-700 text-2xl mb-8">
+        <p className="text-gray-700 text-xl mb-8">
           After you submit your juicy news, our groovy admins will review it.
           Once approved, it will be on display for the whole world to see!
         </p>
@@ -100,10 +100,10 @@ const AboutPage = () => {
       >
         <div className="absolute inset-0 contrast-50 bg-black opacity-70"></div>
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
-          <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 text-center font-unbounded">
+          <h1 className="text-xl sm:text-2xl lg:text-4xl font-bold mb-4 text-center font-unbounded">
             Unlock the power of Desi hip-hop culture.
           </h1>
-          <p className="text-xl sm:text-2xl text-center">
+          <p className="text-lg sm:text-xl text-center">
             Join us today and stay connected with the freshest news in the
             scene!
           </p>

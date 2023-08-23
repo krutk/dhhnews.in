@@ -48,11 +48,12 @@ export default function RootLayout({
         className={`${inter.variable} ${sairaStencilOne.variable} ${instrumentSans.variable} ${unbounded.variable}`}
       >
         <Provider>
-          <div className="bg-white sm:px-20 px-4">
+          <div>
             <PostsProvider>
               {/* <UsersProvider> */}
               <Navbar />
-              {children}
+              <div className="bg-white sm:px-20 px-4">{children}</div>
+
               {/* </UsersProvider> */}
             </PostsProvider>
           </div>

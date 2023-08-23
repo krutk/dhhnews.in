@@ -201,7 +201,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-white sticky top-0 z-10">
+    <header className="bg-white sticky top-0 z-10 sm:px-20 px-4 shadow-lg">
       <nav className="mx-auto flex justify-between items-center py-4 gap-10">
         <div className="flex items-center">
           <div className="bg-logo h-10 w-10 rounded-full bg-no-repeat bg-contain" />
@@ -231,10 +231,15 @@ const Navbar = () => {
             {/* Your mobile menu icon */}
           </button>
         </div>
-        <DesktopMenu session={session} handleLogout={handleLogout} />
+        <DesktopMenu
+          setMobileMenuOpen={setMobileMenuOpen}
+          session={session}
+          handleLogout={handleLogout}
+        />
       </nav>
       {mobileMenuOpen && (
         <MobileMenu
+          setMobileMenuOpen={setMobileMenuOpen}
           session={session}
           pathname={pathname}
           handleLogout={handleLogout}

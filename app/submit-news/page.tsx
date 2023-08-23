@@ -60,7 +60,7 @@ const SubmitNews = () => {
       tags: [],
       imageUrl: "",
       description: "",
-      userId: "",
+      userId: formData.userId,
     });
   };
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // Store uploaded image URL
@@ -305,7 +305,6 @@ const SubmitNews = () => {
                   name="description"
                   rows={5}
                   className="block pl-2 w-full rounded-md border-0 py-1.5 outline-none text-gray-900 shadow-sm ring-1 ring-inset border-hidden ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF6D00] sm:text-base sm:leading-6"
-                  defaultValue={""}
                   value={formData.description}
                   onChange={handleInputChange}
                 />

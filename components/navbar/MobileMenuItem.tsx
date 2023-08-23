@@ -2,16 +2,23 @@ import React from "react";
 import Link from "next/link";
 
 type MobileMenuItemProps = {
+  setMobileMenuOpen: Function;
   href: string;
   children: string;
 };
 
-const MobileMenuItem = ({ href, children }: MobileMenuItemProps) => (
+const MobileMenuItem = ({
+  href,
+  children,
+  setMobileMenuOpen,
+}: MobileMenuItemProps) => (
   <Link
     href={href}
-    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-[#FF994E]"
+    onClick={() => setMobileMenuOpen(false)}
+    className="-mx-3 w-fit block rounded-lg px-3 py-2 text-lg font-semibold leading-7 text-gray-900 group transition duration-300"
   >
-    {children}
+    <div>{children}</div>
+    <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[#FF6D00]"></span>
   </Link>
 );
 

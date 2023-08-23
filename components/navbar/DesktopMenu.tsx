@@ -11,15 +11,26 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type DesktopMenuProps = {
+  setMobileMenuOpen: Function;
   session: any;
   handleLogout: MouseEventHandler<HTMLDivElement>;
 };
 
-const DesktopMenu = ({ session, handleLogout }: DesktopMenuProps) => (
+const DesktopMenu = ({
+  setMobileMenuOpen,
+  session,
+  handleLogout,
+}: DesktopMenuProps) => (
   <div className="hidden sm:flex items-center font-bold font-instrument-sans text-lg space-x-5">
-    <MobileMenuItem href="/">Home</MobileMenuItem>
-    <MobileMenuItem href="/about">About</MobileMenuItem>
-    <MobileMenuItem href="/news">News</MobileMenuItem>
+    <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/">
+      Home
+    </MobileMenuItem>
+    <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/about">
+      About
+    </MobileMenuItem>
+    <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/news">
+      News
+    </MobileMenuItem>
     {session ? (
       <div className="relative">
         <div className="cursor-pointer">
@@ -63,9 +74,12 @@ const DesktopMenu = ({ session, handleLogout }: DesktopMenuProps) => (
         </div>{" "}
       </div>
     ) : (
-      <div className="cursor-pointer">
-        <Link href="/signin">Sign In</Link>
-      </div>
+      // <div className="cursor-pointer">
+      //   <Link href="/signin">Sign In</Link>
+      // </div>
+      <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/signin">
+        Sign In
+      </MobileMenuItem>
     )}
   </div>
 );
