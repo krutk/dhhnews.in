@@ -62,6 +62,15 @@ const DesktopMenu = ({
                     Submit News
                   </DropdownMenuLabel>
                 </Link>
+
+                {session.user.role === "ADMIN" && (
+                  <Link href="/admin">
+                    <DropdownMenuLabel className="cursor-pointer rounded-md px-4 py-2 hover:bg-[#FF994E]">
+                      Admin
+                    </DropdownMenuLabel>
+                  </Link>
+                )}
+
                 <DropdownMenuLabel
                   onClick={handleLogout}
                   className="cursor-pointer rounded-md px-4 py-2 hover:bg-[#FF994E]"

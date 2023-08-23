@@ -206,7 +206,7 @@ const Navbar = () => {
         <div className="flex items-center">
           <div className="bg-logo h-10 w-10 rounded-full bg-no-repeat bg-contain" />
           <Link href="/">
-            <div className="ml-4 text-xl font-saira-stencil-one hidden sm:block">
+            <div className="ml-4 text-xl font-saira-stencil-one hidden md:block">
               DHHNews.in
             </div>
           </Link>
