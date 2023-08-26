@@ -35,6 +35,7 @@ const Register = () => {
         setLoading(false);
         setRegistered(true); // Set registration status to true
       } catch (error) {
+        setLoading(false);
         console.log("error --> register", error);
         setModalMessage(
           "Email or Username already registered for another user!"

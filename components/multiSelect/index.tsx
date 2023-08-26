@@ -5,6 +5,7 @@ const tags = [
   "Lafda",
   "Review",
   "Opinion",
+  "Article",
   "Song",
   "Album/EP/Mixtape",
   "Views",

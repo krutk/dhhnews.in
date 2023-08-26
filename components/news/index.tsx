@@ -8,6 +8,7 @@ const tags = [
   "Lafda",
   "Review",
   "Opinion",
+  "Article",
   "Song",
   "Album/EP/Mixtape",
   "Views",
@@ -55,7 +56,7 @@ const Index = () => {
                   router.push("/news");
                 }
               }}
-              className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer bg-[#FFE3CE]
+              className={`font-normal sm:font-medium text-xs px-2 py-1 sm:text-base sm:px-3 sm:py-1 rounded-3xl cursor-pointer bg-[#FFE3CE]
                                 }`}
             >
               Refresh
@@ -98,9 +99,9 @@ const Index = () => {
               tags.map((tag) => {
                 return (
                   <div
-                    key={tag} // You should provide a unique key for each element in a map loop
+                    key={tag}
                     onClick={() => handleSortOptionClick(tag)}
-                    className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer ${
+                    className={`font-normal sm:font-medium text-xs px-2 py-1 sm:text-base sm:px-3 sm:py-1 rounded-3xl cursor-pointer ${
                       selectedSortOption === tag
                         ? "bg-[#FF994E]"
                         : "bg-[#FFE3CE]"
