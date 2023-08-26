@@ -51,11 +51,14 @@ import UserCard from "@/components/userCard";
 import { usePostsContext } from "@/components/contexts/PostsContext";
 import { formatDate } from "@/lib/utils";
 import Loader from "@/components/Loader";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { posts, loading, error } = usePostsContext();
   const news = posts.find((p) => p.id === params.id);
-
+  const router = useRouter();
   const [showCard, setShowCard] = useState(false);
 
   if (loading) {
@@ -81,15 +84,25 @@ const Page = ({ params }: { params: { id: string } }) => {
           {news?.title}
         </div>
         <div className="flex my-4">
-          <div className="inline-block h-[44px] w-[44px] bg-slate-600 rounded-full ring-2 ring-white"></div>
+          <Avatar className="inline-block h-[44px] w-[44px] rounded-full ring-2 ring-white cursor-pointer">
+            <AvatarImage
+              src={news?.user?.image ?? ""}
+              className="inline-block h-[44px] w-[44px] rounded-full ring-2 ring-white cursor-pointer"
+            />
+            <AvatarFallback className="text-4xl">
+              {news?.user.username[0]?.toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          {/* <div className="inline-block h-[44px] w-[44px] bg-slate-600 rounded-full ring-2 ring-white"></div> */}
           <div className="flex flex-col ml-3">
-            <div
+            <Link
               className="cursor-pointer hover:underline font-medium text-base"
               //   onMouseEnter={handleMouseEnter}
               //   onMouseLeave={handleMouseLeave}
+              href={`/${news?.user?.username}`}
             >
               {news?.user.username}
-            </div>
+            </Link>
             <div className="text-[14px]">{formatDate(news?.updatedAt)}</div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import AlertDialog from "@/components/alertDialog";
+import Loader from "@/components/Loader";
 
 const Register = () => {
   const router = useRouter();
@@ -14,9 +15,10 @@ const Register = () => {
 
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState<any>({});
-  const [registered, setRegistered] = useState(false); // Track registration status
-  const [modalVisible, setModalVisible] = useState(false); // Track modal
+  const [registered, setRegistered] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
   const emailRegex =
@@ -28,7 +30,9 @@ const Register = () => {
     e.preventDefault();
     if (e.target.checkValidity() && validateForm()) {
       try {
+        setLoading(true);
         await axios.post("/api/register", data);
+        setLoading(false);
         setRegistered(true); // Set registration status to true
       } catch (error) {
         console.log("error --> register", error);
@@ -61,6 +65,10 @@ const Register = () => {
 
     return Object.keys(newErrors).length === 0;
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -189,6 +197,15 @@ const Register = () => {
               </div>
             </form>
           )}
+          <p className="mt-5 text-center text-sm text-gray-500">
+            Already a member?{" "}
+            <a
+              href="/signin"
+              className="font-semibold leading-6 text-[#FF6D00] hover:text-[#FFB600]"
+            >
+              Sign In
+            </a>
+          </p>
         </div>
       </div>
       {modalVisible && (

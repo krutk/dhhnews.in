@@ -4,6 +4,18 @@ const NewsPosts = React.lazy(() => import("../posts/newsPosts"));
 import Loading from "@/app/news/loading";
 import { useRouter, usePathname } from "next/navigation";
 
+const tags = [
+  "Lafda",
+  "Review",
+  "Opinion",
+  "Song",
+  "Album/EP/Mixtape",
+  "Views",
+  "Interview",
+  "Playlist",
+  "Live Show",
+];
+
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSortOption, setSelectedSortOption] = useState("");
@@ -48,7 +60,7 @@ const Index = () => {
             >
               Refresh
             </div>
-            <div
+            {/* <div
               onClick={() => handleSortOptionClick("Lafda")}
               className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer ${
                 selectedSortOption === "Lafda" ? "bg-[#FF994E]" : "bg-[#FFE3CE]"
@@ -81,7 +93,24 @@ const Index = () => {
               }`}
             >
               Update
-            </div>
+            </div> */}
+            {pathname === "/news" &&
+              tags.map((tag) => {
+                return (
+                  <div
+                    key={tag} // You should provide a unique key for each element in a map loop
+                    onClick={() => handleSortOptionClick(tag)}
+                    className={`font-medium text-base px-3 py-1 rounded-3xl cursor-pointer ${
+                      selectedSortOption === tag
+                        ? "bg-[#FF994E]"
+                        : "bg-[#FFE3CE]"
+                    }`}
+                  >
+                    {tag}{" "}
+                    {/* Use curly braces to render the actual tag value */}
+                  </div>
+                );
+              })}
           </div>
           <NewsPosts selectedSortOption={selectedSortOption} />
         </>

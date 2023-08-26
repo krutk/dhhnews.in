@@ -46,7 +46,7 @@ export async function POST(request: any) {
     const verifyEmailLink =
       process.env.NODE_ENV === "development"
         ? `http://localhost:3000/api/verify?token=${verificationToken}`
-        : `https://dhhnews-in.vercel.app/api/verify?token=${verificationToken}`;
+        : `https://dhhnews.in/api/verify?token=${verificationToken}`;
 
     const HTMLCode = `<body>
   <div style='padding: 10px; text-align: Center; align-items: center;'>

@@ -1,7 +1,17 @@
 import React from "react";
 import Select from "react-select";
 
-const tags = ["Lafda", "Review", "Opinion", "Song", "Album", "Views"];
+const tags = [
+  "Lafda",
+  "Review",
+  "Opinion",
+  "Song",
+  "Album/EP/Mixtape",
+  "Views",
+  "Interview",
+  "Playlist",
+  "Live Show",
+];
 
 const options = tags.map((tag) => ({
   label: tag,

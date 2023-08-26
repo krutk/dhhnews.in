@@ -41,7 +41,7 @@ export async function POST(req: any) {
     const resetPasswordLink =
       process.env.NODE_ENV === "development"
         ? `http://localhost:3000/reset-password?token=${resetToken}`
-        : `https://dhhnews-in.vercel.app/reset-password?token=${resetToken}`;
+        : `https://dhhnews.in/reset-password?token=${resetToken}`;
     const HTMLCode = `<body>
   <div style='padding: 10px; text-align: Center; align-items: center;'>
     <div>

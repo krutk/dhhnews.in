@@ -46,7 +46,7 @@ const MobileMenu = ({
     <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/about">
       About
     </MobileMenuItem>
-    {session.user.role === "ADMIN" && (
+    {session?.user?.role === "ADMIN" && (
       <MobileMenuItem setMobileMenuOpen={setMobileMenuOpen} href="/admin">
         Admin
       </MobileMenuItem>
