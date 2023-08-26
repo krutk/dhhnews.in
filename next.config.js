@@ -8,6 +8,9 @@ const nextConfig = {
     GMAIL_ID: process.env.GMAIL_ID,
     GMAIL_PASS: process.env.GMAIL_PASS,
   },
+  compiler: {
+    removeConsole: true,
+  },
 };
 
 module.exports = nextConfig;
