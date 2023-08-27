@@ -21,11 +21,11 @@ export default function Home() {
         <div className="absolute inset-0 contrast-50 bg-black opacity-70"></div>
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
           <h1 className="text-lg sm:text-xl lg:text-4xl font-bold mb-4 text-center font-unbounded">
-            Unlock the power of Desi hip-hop culture.
+            A Collaborative Desi Hip Hop News Website.
           </h1>
           <p className="text-md sm:text-xl text-center">
             <Link href="/about" className="underline">
-              Learn more about us{" "}
+              Know how it works!
               <ChevronRightIcon className="h-5 w-5 inline" />
             </Link>
           </p>

@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import AlertDialog from "@/components/alertDialog";
 import Loader from "@/components/Loader";
+import { getSession } from "next-auth/react";
 
 const Register = () => {
   const router = useRouter();
@@ -19,6 +20,17 @@ const Register = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const session: any = await getSession();
+      if (session) {
+        router.push("/");
+      }
+    };
+
+    fetchSession();
+  }, []);
 
   const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
   const emailRegex =

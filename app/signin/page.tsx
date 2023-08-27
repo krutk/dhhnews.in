@@ -1,8 +1,8 @@
 "use client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { getSession, signIn } from "next-auth/react";
 import AlertDialog from "@/components/alertDialog";
 import Loader from "@/components/Loader";
 
@@ -16,6 +16,17 @@ const SignIn = () => {
   const [modalMessage, setModalMessage] = useState<string>("");
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const session: any = await getSession();
+      if (session) {
+        router.push("/");
+      }
+    };
+
+    fetchSession();
+  }, []);
 
   const signInUser = async (e: { preventDefault: () => void }) => {
     setIsLoading(true);

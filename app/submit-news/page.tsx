@@ -318,6 +318,7 @@ const SubmitNews = () => {
         <button
           type="button"
           className="text-lg font-semibold leading-6 text-gray-900"
+          onClick={() => router.push(`/${session?.user?.username}` ?? "/")}
         >
           Cancel
         </button>
