@@ -40,7 +40,7 @@ export default function Home() {
         </p>
       </div> */}
 
-      <Trending />
+      {/* <Trending /> */}
       <News />
     </div>
     // {/* <Poster/>
