@@ -116,14 +116,14 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
         )}
         <div className="border-t border-gray-300 my-8" />
-        {news?.imageUrl ?? (
+        {news?.imageUrl && (
           <img
             src={news?.imageUrl}
             alt={news?.title}
             className="h-auto max-w-full"
           />
         )}
-        <div className="text-lg md:text-xl mt-8">{news?.description}</div>
+        <div className="text-lg md:text-xl my-8">{news?.description}</div>
       </div>
     </div>
   );

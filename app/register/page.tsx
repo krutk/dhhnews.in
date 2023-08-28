@@ -132,7 +132,10 @@ const Register = () => {
                     required
                     value={data.username}
                     onChange={(e) =>
-                      setData({ ...data, username: e.target.value })
+                      setData({
+                        ...data,
+                        username: e.target.value.toLowerCase(),
+                      })
                     }
                     className="block w-full rounded-md border-0 py-1.5 pl-2 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF6D00] sm:text-sm sm:leading-6"
                   />

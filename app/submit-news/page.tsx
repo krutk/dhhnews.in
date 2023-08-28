@@ -129,6 +129,7 @@ const SubmitNews = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsPageLoading(true);
     if (formData.tags.length === 0) {
       setTagsError(true);
       return; // Stop form submission
@@ -148,7 +149,7 @@ const SubmitNews = () => {
         },
         body: JSON.stringify(newsData),
       });
-
+      setIsPageLoading(false);
       if (newsResponse.ok) {
         setModalMessage(
           "News Submitted successfully. Please wait for approval."
@@ -196,7 +197,7 @@ const SubmitNews = () => {
                     name="title"
                     id="title"
                     autoComplete="title"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-2 outline-none text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6"
+                    className="block flex-1 border-0 bg-transparent py-1.5 px-2 outline-none text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6"
                     placeholder="EPR Iyer started a math tuition class and only teaches Fibonacci series!"
                     value={formData.title}
                     onChange={handleInputChange}
@@ -304,7 +305,7 @@ const SubmitNews = () => {
                   id="description"
                   name="description"
                   rows={5}
-                  className="block pl-2 w-full rounded-md border-0 py-1.5 outline-none text-gray-900 shadow-sm ring-1 ring-inset border-hidden ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF6D00] sm:text-base sm:leading-6"
+                  className="block px-2 w-full rounded-md border-0 py-1.5 outline-none text-gray-900 shadow-sm ring-1 ring-inset border-hidden ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF6D00] sm:text-base sm:leading-6"
                   value={formData.description}
                   onChange={handleInputChange}
                 />

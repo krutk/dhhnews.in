@@ -70,7 +70,7 @@ const AboutPage = () => {
         <h2 className="text-xl font-unbounded mb-4 text-gray-700">
           Approval Process
         </h2>
-        <p className="text-gray-700 text-xl mb-8">
+        <p className="text-gray-700 text-xl mb-4">
           After you submit your juicy news, our groovy admins will review it.
           Once approved, it will be on display for the whole world to see!
         </p>
@@ -92,6 +92,10 @@ const AboutPage = () => {
           </p>
         </div>
       </div> */}
+      <p className="text-gray-700 font-unbounded text-lg mb-8">
+        Want to become an admin? Reach out to us via DM on social media or email
+        to apply for an admin role!
+      </p>
       <div
         className="relative rounded-lg bg-cover bg-center h-96 overflow-hidden"
         style={{
@@ -109,6 +113,7 @@ const AboutPage = () => {
           </p>
         </div>
       </div>
+
       <footer className="flex items-center justify-center space-x-4 py-8">
         <a
           href="https://www.instagram.com/dhhnews.in"
