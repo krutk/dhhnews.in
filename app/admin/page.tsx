@@ -32,7 +32,7 @@ const page = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const users = await axios.get("/api/users");
-      console.log("<--users-->", users.data);
+      // console.log("<--users-->", users.data);
       setUsers(users.data);
     };
     fetchUsers();
