@@ -104,7 +104,7 @@ export async function getServerSideProps() {
   }
 }
 
-const PostsProvider: React.FC = ({ children }: any) => {
+const PostsProvider: any = ({ children }: any) => {
   // This can be an empty array as the data will be fetched using getServerSideProps
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
